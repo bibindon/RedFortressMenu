@@ -276,7 +276,7 @@ private:
     std::wstring m_detail;
 };
 
-class MenuLib
+class Menu
 {
 public:
 

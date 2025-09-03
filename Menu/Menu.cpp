@@ -20,7 +20,7 @@ static std::vector<std::wstring> split(const std::wstring& s, wchar_t delim)
     return result;
 }
 
-void MenuLib::Init(
+void Menu::Init(
     const std::wstring& csvfilepath, /* TODO remove */
     IFont* font,
     IFont* fontStatus,
@@ -80,7 +80,7 @@ void MenuLib::Init(
     m_TopBarNameKey.push_back(_T("Title"));
 }
 
-void NSMenu::MenuLib::Finalize()
+void NSMenu::Menu::Finalize()
 {
     for (auto it = m_itemInfoList.begin(); it != m_itemInfoList.end(); ++it)
     {
@@ -124,7 +124,7 @@ void NSMenu::MenuLib::Finalize()
     delete m_SE;
 }
 
-void MenuLib::SetItem(const std::vector<ItemInfo>& items)
+void Menu::SetItem(const std::vector<ItemInfo>& items)
 {
     for (auto it = m_itemInfoList.begin(); it != m_itemInfoList.end(); ++it)
     {
@@ -134,7 +134,7 @@ void MenuLib::SetItem(const std::vector<ItemInfo>& items)
     m_itemInfoList = items;
 }
 
-void MenuLib::SetHuman(const std::vector<HumanInfo>& items)
+void Menu::SetHuman(const std::vector<HumanInfo>& items)
 {
     for (auto it = m_humanInfoList.begin(); it != m_humanInfoList.end(); ++it)
     {
@@ -144,7 +144,7 @@ void MenuLib::SetHuman(const std::vector<HumanInfo>& items)
     m_humanInfoList = items;
 }
 
-void MenuLib::SetEnemy(const std::vector<EnemyInfo>& items)
+void Menu::SetEnemy(const std::vector<EnemyInfo>& items)
 {
     for (auto it = m_enemyInfoList.begin(); it != m_enemyInfoList.end(); ++it)
     {
@@ -154,7 +154,7 @@ void MenuLib::SetEnemy(const std::vector<EnemyInfo>& items)
     m_enemyInfoList = items;
 }
 
-void MenuLib::SetMap(const std::vector<MapInfo>& items)
+void Menu::SetMap(const std::vector<MapInfo>& items)
 {
     for (auto it = m_mapInfoList.begin(); it != m_mapInfoList.end(); ++it)
     {
@@ -164,7 +164,7 @@ void MenuLib::SetMap(const std::vector<MapInfo>& items)
     m_mapInfoList = items;
 }
 
-void MenuLib::SetSkill(const std::vector<SkillInfo>& items)
+void Menu::SetSkill(const std::vector<SkillInfo>& items)
 {
     for (auto it = m_skillInfoList.begin(); it != m_skillInfoList.end(); ++it)
     {
@@ -174,7 +174,7 @@ void MenuLib::SetSkill(const std::vector<SkillInfo>& items)
     m_skillInfoList = items;
 }
 
-void MenuLib::SetStatus(const std::vector<StatusInfo>& items)
+void Menu::SetStatus(const std::vector<StatusInfo>& items)
 {
     for (auto it = m_statusInfoList.begin(); it != m_statusInfoList.end(); ++it)
     {
@@ -184,7 +184,7 @@ void MenuLib::SetStatus(const std::vector<StatusInfo>& items)
     m_statusInfoList = items;
 }
 
-void MenuLib::SetGuide(const std::vector<GuideInfo>& items)
+void Menu::SetGuide(const std::vector<GuideInfo>& items)
 {
     m_guideInfoList = items;
 
@@ -209,7 +209,7 @@ void MenuLib::SetGuide(const std::vector<GuideInfo>& items)
     }
 }
 
-void MenuLib::SetWeapon(const std::vector<WeaponInfo>& items)
+void Menu::SetWeapon(const std::vector<WeaponInfo>& items)
 {
     for (auto it = m_weaponInfoList.begin(); it != m_weaponInfoList.end(); ++it)
     {
@@ -219,7 +219,7 @@ void MenuLib::SetWeapon(const std::vector<WeaponInfo>& items)
     m_weaponInfoList = items;
 }
 
-void MenuLib::Up()
+void Menu::Up()
 {
     if (m_eFocus == eFocus::TOP_BAR)
     {
@@ -391,7 +391,7 @@ void MenuLib::Up()
     }
 }
 
-void MenuLib::Down()
+void Menu::Down()
 {
     if (m_eFocus == eFocus::TOP_BAR)
     {
@@ -582,7 +582,7 @@ void MenuLib::Down()
     }
 }
 
-void MenuLib::Right()
+void Menu::Right()
 {
     if (m_eFocus == eFocus::TOP_BAR)
     {
@@ -610,7 +610,7 @@ void MenuLib::Right()
     }
 }
 
-void MenuLib::Left()
+void Menu::Left()
 {
     if (m_eFocus == eFocus::TOP_BAR)
     {
@@ -638,7 +638,7 @@ void MenuLib::Left()
     }
 }
 
-std::wstring MenuLib::Into()
+std::wstring Menu::Into()
 {
     std::wstring result;
     m_SE->PlayClick();
@@ -828,7 +828,7 @@ std::wstring MenuLib::Into()
     return result;
 }
 
-std::wstring MenuLib::Back()
+std::wstring Menu::Back()
 {
     std::wstring result;
     if (m_eFocus == eFocus::ITEM ||
@@ -885,7 +885,7 @@ std::wstring MenuLib::Back()
     return result;
 }
 
-void MenuLib::Next()
+void Menu::Next()
 {
     if (m_eFocus == eFocus::TOP_BAR)
     {
@@ -897,7 +897,7 @@ void MenuLib::Next()
     }
 }
 
-void MenuLib::Previous()
+void Menu::Previous()
 {
     if (m_eFocus == eFocus::TOP_BAR)
     {
@@ -909,7 +909,7 @@ void MenuLib::Previous()
     }
 }
 
-void NSMenu::MenuLib::CursorOn(const int x, const int y)
+void NSMenu::Menu::CursorOn(const int x, const int y)
 {
     int previousIndex = 0;
     if (m_eFocus == eFocus::TOP_BAR)
@@ -1236,7 +1236,7 @@ void NSMenu::MenuLib::CursorOn(const int x, const int y)
     }
 }
 
-std::wstring MenuLib::Click(const int x, const int y)
+std::wstring Menu::Click(const int x, const int y)
 {
     std::wstring result;
     m_SE->PlayClick();
@@ -1699,12 +1699,12 @@ std::wstring MenuLib::Click(const int x, const int y)
     return result;
 }
 
-void NSMenu::MenuLib::RightClick()
+void NSMenu::Menu::RightClick()
 {
     Back();
 }
 
-void MenuLib::Draw()
+void Menu::Draw()
 {
     m_sprBackground->DrawImage(0, 0);
 
@@ -2430,7 +2430,7 @@ void MenuLib::Draw()
     }
 }
 
-void NSMenu::MenuLib::AddItem(const ItemInfo& itemInfo)
+void NSMenu::Menu::AddItem(const ItemInfo& itemInfo)
 {
     m_itemInfoList.push_back(itemInfo);
     std::sort(m_itemInfoList.begin(), m_itemInfoList.end(),
@@ -2458,7 +2458,7 @@ void NSMenu::MenuLib::AddItem(const ItemInfo& itemInfo)
               });
 }
 
-void NSMenu::MenuLib::DeleteItem(const std::wstring& id, const int subId)
+void NSMenu::Menu::DeleteItem(const std::wstring& id, const int subId)
 {
     for (std::size_t i = 0; i < m_itemInfoList.size(); ++i)
     {
@@ -2498,7 +2498,7 @@ void NSMenu::MenuLib::DeleteItem(const std::wstring& id, const int subId)
     }
 }
 
-void NSMenu::MenuLib::UpdateItem(const ItemInfo& itemInfo)
+void NSMenu::Menu::UpdateItem(const ItemInfo& itemInfo)
 {
     for (std::size_t i = 0; i < m_itemInfoList.size(); ++i)
     {
@@ -2513,29 +2513,29 @@ void NSMenu::MenuLib::UpdateItem(const ItemInfo& itemInfo)
     }
 }
 
-void NSMenu::MenuLib::UpdateStatusText(const std::wstring& text)
+void NSMenu::Menu::UpdateStatusText(const std::wstring& text)
 {
     m_statusInfoList.at(0).SetDetail(text);
 }
 
-std::wstring NSMenu::MenuLib::ToStringWithPrecision(const float value, const int precision)
+std::wstring NSMenu::Menu::ToStringWithPrecision(const float value, const int precision)
 {
     std::wostringstream out;
     out << std::fixed << std::setprecision(precision) << value;
     return out.str();
 }
 
-void NSMenu::MenuLib::SetWeightAll(const float arg)
+void NSMenu::Menu::SetWeightAll(const float arg)
 {
     m_weightAll = arg;
 }
 
-void NSMenu::MenuLib::SetVolumeAll(const int arg)
+void NSMenu::Menu::SetVolumeAll(const int arg)
 {
     m_volumeAll = arg;
 }
 
-void NSMenu::MenuLib::SetVolumeMax(const int arg)
+void NSMenu::Menu::SetVolumeMax(const int arg)
 {
     m_volumeMax = arg;
 }

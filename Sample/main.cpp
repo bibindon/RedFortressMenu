@@ -211,7 +211,7 @@ D3DXMATERIAL* d3dxMaterials = NULL;
 float f = 0.0f;
 bool bShowMenu = true;
 
-MenuLib menu;
+Menu menu;
 
 void TextDraw(LPD3DXFONT pFont, wchar_t* text, int X, int Y)
 {
