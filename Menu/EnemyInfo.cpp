@@ -1,6 +1,6 @@
 ﻿#include "Menu.h"
 
-using namespace NSMenulib;
+using namespace NSMenu;
 
 std::wstring EnemyInfo::GetId()
 {

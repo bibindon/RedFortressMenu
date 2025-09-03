@@ -1,33 +1,33 @@
 ﻿#include "Menu.h"
 
-using namespace NSMenulib;
+using namespace NSMenu;
 
-std::wstring NSMenulib::GuideInfo::GetId()
+std::wstring NSMenu::GuideInfo::GetId()
 {
     return m_id;
 }
 
-void NSMenulib::GuideInfo::SetId(const std::wstring& arg)
+void NSMenu::GuideInfo::SetId(const std::wstring& arg)
 {
     m_id = arg;
 }
 
-std::wstring NSMenulib::GuideInfo::GetCategory()
+std::wstring NSMenu::GuideInfo::GetCategory()
 {
     return m_category;
 }
 
-void NSMenulib::GuideInfo::SetCategory(const std::wstring& arg)
+void NSMenu::GuideInfo::SetCategory(const std::wstring& arg)
 {
     m_category = arg;
 }
 
-std::wstring NSMenulib::GuideInfo::GetSubCategory()
+std::wstring NSMenu::GuideInfo::GetSubCategory()
 {
     return m_subCategory;
 }
 
-void NSMenulib::GuideInfo::SetSubCategory(const std::wstring& arg)
+void NSMenu::GuideInfo::SetSubCategory(const std::wstring& arg)
 {
     m_subCategory = arg;
 }

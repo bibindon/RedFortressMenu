@@ -4,7 +4,7 @@
 #include <vector>
 #include <map>
 
-namespace NSMenulib
+namespace NSMenu
 {
 class ISprite
 {

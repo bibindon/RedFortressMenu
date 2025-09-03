@@ -1,6 +1,6 @@
 ﻿#include "Menu.h"
 
-using namespace NSMenulib;
+using namespace NSMenu;
 
 std::wstring ItemInfo::GetId() const
 {
@@ -58,62 +58,62 @@ void ItemInfo::SetDetail(const std::wstring& arg)
     m_detail = arg;
 }
 
-int NSMenulib::ItemInfo::GetLevel() const
+int NSMenu::ItemInfo::GetLevel() const
 {
     return m_level;
 }
 
-void NSMenulib::ItemInfo::SetLevel(const int arg)
+void NSMenu::ItemInfo::SetLevel(const int arg)
 {
     m_level = arg;
 }
 
-int NSMenulib::ItemInfo::GetSubId() const
+int NSMenu::ItemInfo::GetSubId() const
 {
     return m_subId;
 }
 
-void NSMenulib::ItemInfo::SetSubId(const int arg)
+void NSMenu::ItemInfo::SetSubId(const int arg)
 {
     m_subId = arg;
 }
 
-bool NSMenulib::ItemInfo::GetEquipEnable() const
+bool NSMenu::ItemInfo::GetEquipEnable() const
 {
     return m_equipEnable;
 }
 
-void NSMenulib::ItemInfo::SetEquipEnable(const bool arg)
+void NSMenu::ItemInfo::SetEquipEnable(const bool arg)
 {
     m_equipEnable = arg;
 }
 
-bool NSMenulib::ItemInfo::GetEquip() const
+bool NSMenu::ItemInfo::GetEquip() const
 {
     return m_equip;
 }
 
-void NSMenulib::ItemInfo::SetEquip(const bool arg)
+void NSMenu::ItemInfo::SetEquip(const bool arg)
 {
     m_equip = arg;
 }
 
-float NSMenulib::ItemInfo::GetWeight() const
+float NSMenu::ItemInfo::GetWeight() const
 {
     return m_weight;
 }
 
-void NSMenulib::ItemInfo::SetWeight(const float arg)
+void NSMenu::ItemInfo::SetWeight(const float arg)
 {
     m_weight = arg;
 }
 
-int NSMenulib::ItemInfo::GetVolume() const
+int NSMenu::ItemInfo::GetVolume() const
 {
     return m_volume;
 }
 
-void NSMenulib::ItemInfo::SetVolume(const int arg)
+void NSMenu::ItemInfo::SetVolume(const int arg)
 {
     m_volume = arg;
 }

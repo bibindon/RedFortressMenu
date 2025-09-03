@@ -1,6 +1,6 @@
 ﻿#include "Menu.h"
 
-using namespace NSMenulib;
+using namespace NSMenu;
 
 std::wstring WeaponInfo::GetId()
 {
@@ -58,22 +58,22 @@ void WeaponInfo::SetDurability(const int arg)
     m_durability = arg;
 }
 
-int NSMenulib::WeaponInfo::GetLevel()
+int NSMenu::WeaponInfo::GetLevel()
 {
     return m_level;
 }
 
-void NSMenulib::WeaponInfo::SetLevel(const int arg)
+void NSMenu::WeaponInfo::SetLevel(const int arg)
 {
     m_level = arg;
 }
 
-int NSMenulib::WeaponInfo::GetSubId()
+int NSMenu::WeaponInfo::GetSubId()
 {
     return m_subId;
 }
 
-void NSMenulib::WeaponInfo::SetSubId(const int arg)
+void NSMenu::WeaponInfo::SetSubId(const int arg)
 {
     m_subId = arg;
 }

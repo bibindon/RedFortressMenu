@@ -17,7 +17,7 @@
 #include <sstream>
 #include <tchar.h>
 
-using namespace NSMenulib;
+using namespace NSMenu;
 
 #define SAFE_RELEASE(p) { if (p) { (p)->Release(); (p) = NULL; } }
 

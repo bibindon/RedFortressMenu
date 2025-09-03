@@ -4,7 +4,7 @@
 #include <iomanip>
 #include <tchar.h>
 
-using namespace NSMenulib;
+using namespace NSMenu;
 
 static std::vector<std::wstring> split(const std::wstring& s, wchar_t delim)
 {
@@ -80,7 +80,7 @@ void MenuLib::Init(
     m_TopBarNameKey.push_back(_T("Title"));
 }
 
-void NSMenulib::MenuLib::Finalize()
+void NSMenu::MenuLib::Finalize()
 {
     for (auto it = m_itemInfoList.begin(); it != m_itemInfoList.end(); ++it)
     {
@@ -909,7 +909,7 @@ void MenuLib::Previous()
     }
 }
 
-void NSMenulib::MenuLib::CursorOn(const int x, const int y)
+void NSMenu::MenuLib::CursorOn(const int x, const int y)
 {
     int previousIndex = 0;
     if (m_eFocus == eFocus::TOP_BAR)
@@ -1699,7 +1699,7 @@ std::wstring MenuLib::Click(const int x, const int y)
     return result;
 }
 
-void NSMenulib::MenuLib::RightClick()
+void NSMenu::MenuLib::RightClick()
 {
     Back();
 }
@@ -2430,7 +2430,7 @@ void MenuLib::Draw()
     }
 }
 
-void NSMenulib::MenuLib::AddItem(const ItemInfo& itemInfo)
+void NSMenu::MenuLib::AddItem(const ItemInfo& itemInfo)
 {
     m_itemInfoList.push_back(itemInfo);
     std::sort(m_itemInfoList.begin(), m_itemInfoList.end(),
@@ -2458,7 +2458,7 @@ void NSMenulib::MenuLib::AddItem(const ItemInfo& itemInfo)
               });
 }
 
-void NSMenulib::MenuLib::DeleteItem(const std::wstring& id, const int subId)
+void NSMenu::MenuLib::DeleteItem(const std::wstring& id, const int subId)
 {
     for (std::size_t i = 0; i < m_itemInfoList.size(); ++i)
     {
@@ -2498,7 +2498,7 @@ void NSMenulib::MenuLib::DeleteItem(const std::wstring& id, const int subId)
     }
 }
 
-void NSMenulib::MenuLib::UpdateItem(const ItemInfo& itemInfo)
+void NSMenu::MenuLib::UpdateItem(const ItemInfo& itemInfo)
 {
     for (std::size_t i = 0; i < m_itemInfoList.size(); ++i)
     {
@@ -2513,29 +2513,29 @@ void NSMenulib::MenuLib::UpdateItem(const ItemInfo& itemInfo)
     }
 }
 
-void NSMenulib::MenuLib::UpdateStatusText(const std::wstring& text)
+void NSMenu::MenuLib::UpdateStatusText(const std::wstring& text)
 {
     m_statusInfoList.at(0).SetDetail(text);
 }
 
-std::wstring NSMenulib::MenuLib::ToStringWithPrecision(const float value, const int precision)
+std::wstring NSMenu::MenuLib::ToStringWithPrecision(const float value, const int precision)
 {
     std::wostringstream out;
     out << std::fixed << std::setprecision(precision) << value;
     return out.str();
 }
 
-void NSMenulib::MenuLib::SetWeightAll(const float arg)
+void NSMenu::MenuLib::SetWeightAll(const float arg)
 {
     m_weightAll = arg;
 }
 
-void NSMenulib::MenuLib::SetVolumeAll(const int arg)
+void NSMenu::MenuLib::SetVolumeAll(const int arg)
 {
     m_volumeAll = arg;
 }
 
-void NSMenulib::MenuLib::SetVolumeMax(const int arg)
+void NSMenu::MenuLib::SetVolumeMax(const int arg)
 {
     m_volumeMax = arg;
 }
