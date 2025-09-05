@@ -90,6 +90,16 @@ public:
         m_pD3DTexture->Release();
     }
 
+    void OnDeviceLost() override
+    {
+        m_D3DSprite->OnLostDevice();
+    }
+
+    void OnDeviceReset() override
+    {
+        m_D3DSprite->OnResetDevice();
+    }
+
 private:
 
     LPDIRECT3DDEVICE9 m_pD3DDevice = NULL;
@@ -97,6 +107,7 @@ private:
     LPDIRECT3DTEXTURE9 m_pD3DTexture = NULL;
     UINT m_width { 0 };
     UINT m_height { 0 };
+
 };
 
 class Font : public IFont
@@ -170,11 +181,22 @@ public:
         m_pFont->Release();
     }
 
+    void OnDeviceLost() override
+    {
+        m_pFont->OnLostDevice();
+    }
+
+    void OnDeviceReset() override
+    {
+        m_pFont->OnResetDevice();
+    }
+
 private:
 
     LPDIRECT3DDEVICE9 m_pD3DDevice = NULL;
     LPD3DXFONT m_pFont = NULL;
     const int m_fontSize = 0;
+
 };
 
 

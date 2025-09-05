@@ -20,14 +20,13 @@ static std::vector<std::wstring> split(const std::wstring& s, wchar_t delim)
     return result;
 }
 
-void Menu::Init(
-    const std::wstring& csvfilepath, /* TODO remove */
-    IFont* font,
-    IFont* fontStatus,
-    ISoundEffect* SE,
-    ISprite* sprCursor,
-    ISprite* sprBackground,
-    const bool bEnglish)
+void Menu::Init(const std::wstring& csvfilepath, /* TODO remove */
+                IFont* font,
+                IFont* fontStatus,
+                ISoundEffect* SE,
+                ISprite* sprCursor,
+                ISprite* sprBackground,
+                const bool bEnglish)
 {
     m_font = font;
     m_fontStatus = fontStatus;
@@ -2538,5 +2537,91 @@ void NSMenu::Menu::SetVolumeAll(const int arg)
 void NSMenu::Menu::SetVolumeMax(const int arg)
 {
     m_volumeMax = arg;
+}
+
+void NSMenu::Menu::OnDeviceLost()
+{
+    for (auto& item : m_itemInfoList)
+    {
+        item.GetSprite()->OnDeviceLost();
+    }
+
+    for (auto& item : m_weaponInfoList)
+    {
+        item.GetSprite()->OnDeviceLost();
+    }
+
+    for (auto& item : m_mapInfoList)
+    {
+        item.GetSprite()->OnDeviceLost();
+    }
+
+    for (auto& item : m_humanInfoList)
+    {
+        item.GetSprite()->OnDeviceLost();
+    }
+
+    for (auto& item : m_skillInfoList)
+    {
+        item.GetSprite()->OnDeviceLost();
+    }
+
+    for (auto& item : m_enemyInfoList)
+    {
+        item.GetSprite()->OnDeviceLost();
+    }
+
+    for (auto& item : m_statusInfoList)
+    {
+        item.GetSprite()->OnDeviceLost();
+    }
+
+    m_sprBackground->OnDeviceLost();
+    m_sprCursor->OnDeviceLost();
+    m_font->OnDeviceLost();
+    m_fontStatus->OnDeviceLost();
+}
+
+void NSMenu::Menu::OnDeviceReset()
+{
+    for (auto& item : m_itemInfoList)
+    {
+        item.GetSprite()->OnDeviceReset();
+    }
+
+    for (auto& item : m_weaponInfoList)
+    {
+        item.GetSprite()->OnDeviceReset();
+    }
+
+    for (auto& item : m_mapInfoList)
+    {
+        item.GetSprite()->OnDeviceReset();
+    }
+
+    for (auto& item : m_humanInfoList)
+    {
+        item.GetSprite()->OnDeviceReset();
+    }
+
+    for (auto& item : m_skillInfoList)
+    {
+        item.GetSprite()->OnDeviceReset();
+    }
+
+    for (auto& item : m_enemyInfoList)
+    {
+        item.GetSprite()->OnDeviceReset();
+    }
+
+    for (auto& item : m_statusInfoList)
+    {
+        item.GetSprite()->OnDeviceReset();
+    }
+
+    m_sprBackground->OnDeviceReset();
+    m_sprCursor->OnDeviceReset();
+    m_font->OnDeviceReset();
+    m_fontStatus->OnDeviceReset();
 }
 
