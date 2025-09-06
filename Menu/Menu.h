@@ -422,7 +422,7 @@ private:
     const int MIDDLE_PANEL_CURSORX = 600;
     const int MIDDLE_PANEL_CURSORY = 295;
 
-    const int LEFT_PANEL_ROW_MAX = 10;
+    const int LEFT_PANEL_ROW_MAX = 11;
 
     ISprite* m_sprCursor = nullptr;
     ISprite* m_sprBackground = nullptr;
