@@ -377,6 +377,8 @@ private:
         SKILL,
         STATUS,
         SAVE,
+        SETTING,
+        SETTING_SUB,
         TITLE,
     };
 
@@ -389,8 +391,9 @@ private:
     const int TOPBAR_SKILL = 6;
     const int TOPBAR_STATUS = 7;
     const int TOPBAR_SAVE = 8;
-    const int TOPBAR_TITLE = 9;
-    const int TOPBAR_MAX = 10;
+    const int TOPBAR_SETTING = 9;
+    const int TOPBAR_TITLE = 10;
+    const int TOPBAR_MAX = 11;
 
     const int TOPBAR_PADDINGX = 50;
     const int TOPBAR_PADDINGY = 8;
@@ -427,63 +430,75 @@ private:
     IFont* m_fontStatus = nullptr;
     ISoundEffect* m_SE = nullptr;
     eFocus m_eFocus = eFocus::TOP_BAR;
-    int m_topBarIndex { 0 };
+    int m_topBarIndex = 0;
 
-    int m_itemCursor { 0 };
-    int m_itemSelect { 0 };
+    int m_itemCursor = 0;
+    int m_itemSelect = 0;
     // 何番目のアイテムが一番上に表示されているか
     // スクロール可能なので一番上に表示されるアイテムはスクロールすると変わる。
-    int m_itemBegin { 0 };
-    int m_itemSubCursor { 0 };
+    int m_itemBegin = 0;
+    int m_itemSubCursor = 0;
 
-    int m_humanCursor { 0 };
-    int m_humanSelect { 0 };
+    int m_humanCursor = 0;
+    int m_humanSelect = 0;
     // 何番目のアイテムが一番上に表示されているか
     // スクロール可能なので一番上に表示されるアイテムはスクロールすると変わる。
-    int m_humanBegin { 0 };
+    int m_humanBegin = 0;
 
-    int m_guideCursor { 0 };
-    int m_guideSelect { 0 };
+    int m_guideCursor = 0;
+    int m_guideSelect = 0;
     // 何番目のアイテムが一番上に表示されているか
     // スクロール可能なので一番上に表示されるアイテムはスクロールすると変わる。
-    int m_guideBegin { 0 };
+    int m_guideBegin = 0;
 
-    int m_guideSubCursor { 0 };
-    int m_guideSubSelect { 0 };
+    int m_guideSubCursor = 0;
+    int m_guideSubSelect = 0;
     // 何番目のアイテムが一番上に表示されているか
     // スクロール可能なので一番上に表示されるアイテムはスクロールすると変わる。
-    int m_guideSubBegin { 0 };
+    int m_guideSubBegin = 0;
 
-    int m_enemyCursor { 0 };
-    int m_enemySelect { 0 };
+    int m_enemyCursor = 0;
+    int m_enemySelect = 0;
     // 何番目のアイテムが一番上に表示されているか
     // スクロール可能なので一番上に表示されるアイテムはスクロールすると変わる。
-    int m_enemyBegin { 0 };
+    int m_enemyBegin = 0;
 
-    int m_mapCursor { 0 };
-    int m_mapSelect { 0 };
+    int m_mapCursor = 0;
+    int m_mapSelect = 0;
     // 何番目のアイテムが一番上に表示されているか
     // スクロール可能なので一番上に表示されるアイテムはスクロールすると変わる。
-    int m_mapBegin { 0 };
+    int m_mapBegin = 0;
 
-    int m_weaponCursor { 0 };
-    int m_weaponSelect { 0 };
+    int m_weaponCursor = 0;
+    int m_weaponSelect = 0;
     // 何番目のアイテムが一番上に表示されているか
     // スクロール可能なので一番上に表示されるアイテムはスクロールすると変わる。
-    int m_weaponBegin { 0 };
-    int m_weaponSubCursor { 0 };
+    int m_weaponBegin = 0;
+    int m_weaponSubCursor = 0;
 
-    int m_skillCursor { 0 };
-    int m_skillSelect { 0 };
+    int m_skillCursor = 0;
+    int m_skillSelect = 0;
     // 何番目のアイテムが一番上に表示されているか
     // スクロール可能なので一番上に表示されるアイテムはスクロールすると変わる。
-    int m_skillBegin { 0 };
+    int m_skillBegin = 0;
 
-    int m_statusCursor { 0 };
-    int m_statusSelect { 0 };
+    int m_statusCursor = 0;
+    int m_statusSelect = 0;
     // 何番目のアイテムが一番上に表示されているか
     // スクロール可能なので一番上に表示されるアイテムはスクロールすると変わる。
-    int m_statusBegin { 0 };
+    int m_statusBegin = 0;
+
+    int m_settingCursor = 0;
+    int m_settingSelect = 0;
+    // 何番目のアイテムが一番上に表示されているか
+    // スクロール可能なので一番上に表示されるアイテムはスクロールすると変わる。
+    int m_settingBegin = 0;
+
+    int m_settingSubCursor = 0;
+    int m_settingSubSelect = 0;
+    // 何番目のアイテムが一番上に表示されているか
+    // スクロール可能なので一番上に表示されるアイテムはスクロールすると変わる。
+    int m_settingSubBegin = 0;
 
     int m_saveCursor = 0;
     int m_titleCursor = 0;

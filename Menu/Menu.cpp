@@ -51,6 +51,7 @@ void Menu::Init(const std::wstring& csvfilepath, /* TODO remove */
         m_TopBarName.push_back(_T("技・魔法"));
         m_TopBarName.push_back(_T("ステータス"));
         m_TopBarName.push_back(_T("セーブ"));
+        m_TopBarName.push_back(_T("設定"));
         m_TopBarName.push_back(_T("タイトルに戻る"));
     }
     else
@@ -64,6 +65,7 @@ void Menu::Init(const std::wstring& csvfilepath, /* TODO remove */
         m_TopBarName.push_back(_T("Magic"));
         m_TopBarName.push_back(_T("Status"));
         m_TopBarName.push_back(_T("Save"));
+        m_TopBarName.push_back(_T("Setting"));
         m_TopBarName.push_back(_T("Title"));
     }
 
@@ -76,6 +78,7 @@ void Menu::Init(const std::wstring& csvfilepath, /* TODO remove */
     m_TopBarNameKey.push_back(_T("Magic"));
     m_TopBarNameKey.push_back(_T("Status"));
     m_TopBarNameKey.push_back(_T("Save"));
+    m_TopBarNameKey.push_back(_T("Setting"));
     m_TopBarNameKey.push_back(_T("Title"));
 }
 
@@ -405,6 +408,38 @@ void Menu::Up()
             m_SE->PlayMove();
         }
     }
+    else if (m_eFocus == eFocus::SETTING)
+    {
+        if (m_settingSelect >= 1)
+        {
+            m_settingSelect--;
+            if (m_settingCursor >= 1)
+            {
+                m_settingCursor--;
+            }
+            else if (m_settingCursor == 0)
+            {
+                m_settingBegin--;
+            }
+            m_SE->PlayMove();
+        }
+    }
+    else if (m_eFocus == eFocus::SETTING_SUB)
+    {
+        if (m_settingSubSelect >= 1)
+        {
+            m_settingSubSelect--;
+            if (m_settingSubCursor >= 1)
+            {
+                m_settingSubCursor--;
+            }
+            else if (m_settingSubCursor == 0)
+            {
+                m_settingSubBegin--;
+            }
+            m_SE->PlayMove();
+        }
+    }
     else if (m_eFocus == eFocus::TITLE)
     {
         if (m_titleCursor == 1)
@@ -596,6 +631,43 @@ void Menu::Down()
             m_SE->PlayMove();
         }
     }
+    else if (m_eFocus == eFocus::SETTING)
+    {
+        // スクロール可能なためカーソルの位置と選択アイテムは異なる
+        if (m_settingSelect <= (int)m_settingCategory.size() - 2)
+        {
+            m_settingSelect++;
+            // 10行まで表示可能なので現在行が8ならカーソルを下に移動可能
+            if (m_settingCursor <= LEFT_PANEL_ROW_MAX-2)
+            {
+                m_settingCursor++;
+            }
+            else if (m_settingCursor == LEFT_PANEL_ROW_MAX-1)
+            {
+                m_settingBegin++;
+            }
+            m_SE->PlayMove();
+        }
+    }
+    else if (m_eFocus == eFocus::SETTING_SUB)
+    {
+        // スクロール可能なためカーソルの位置と選択アイテムは異なる
+        std::vector<std::wstring> vs = m_settingSubCategory.at(m_settingCategory.at(m_settingSelect));
+        if (m_settingSubSelect <= (int)vs.size() - 2)
+        {
+            m_settingSubSelect++;
+            // 10行まで表示可能なので現在行が8ならカーソルを下に移動可能
+            if (m_settingSubCursor <= LEFT_PANEL_ROW_MAX-2)
+            {
+                m_settingSubCursor++;
+            }
+            else if (m_settingSubCursor == LEFT_PANEL_ROW_MAX-1)
+            {
+                m_settingSubBegin++;
+            }
+            m_SE->PlayMove();
+        }
+    }
     else if (m_eFocus == eFocus::TITLE)
     {
         if (m_titleCursor == 0)
@@ -733,6 +805,17 @@ std::wstring Menu::Into()
             m_eFocus = eFocus::SAVE;
             m_saveCursor = 0;
         }
+        else if (m_topBarIndex == TOPBAR_SETTING)
+        {
+            m_eFocus = eFocus::SETTING;
+            m_settingCursor = 0;
+            m_settingBegin = 0;
+            m_settingSelect = 0;
+
+            m_settingSubCursor = 0;
+            m_settingSubBegin = 0;
+            m_settingSubSelect = 0;
+        }
         else if (m_topBarIndex == TOPBAR_TITLE)
         {
             m_eFocus = eFocus::TITLE;
@@ -836,6 +919,11 @@ std::wstring Menu::Into()
             m_saveCursor = 0;
         }
     }
+    else if (m_eFocus == eFocus::SETTING)
+    {
+        m_eFocus = eFocus::SETTING_SUB;
+        m_settingSubCursor = 0;
+    }
     else if (m_eFocus == eFocus::TITLE)
     {
         if (m_titleCursor == 0)
@@ -864,6 +952,7 @@ std::wstring Menu::Back()
         m_eFocus == eFocus::SKILL ||
         m_eFocus == eFocus::STATUS ||
         m_eFocus == eFocus::SAVE ||
+        m_eFocus == eFocus::SETTING ||
         m_eFocus == eFocus::TITLE)
     {
         m_eFocus = eFocus::TOP_BAR;
@@ -892,6 +981,15 @@ std::wstring Menu::Back()
         m_guideSubCursor = 0;
         m_guideSubSelect = 0;
         m_guideSubBegin = 0;
+    }
+    else if (m_eFocus == eFocus::SETTING_SUB)
+    {
+        m_eFocus = eFocus::SETTING;
+        m_SE->PlayBack();
+
+        m_settingSubCursor = 0;
+        m_settingSubSelect = 0;
+        m_settingSubBegin = 0;
     }
     // TOP_BARにフォーカスがあるときに戻ろうとした。
     // つまりメニュー画面を閉じようとした。
@@ -982,6 +1080,10 @@ void NSMenu::Menu::CursorOn(const int x, const int y)
             }
             else if (TOPBAR_STARTX + TOPBAR_PANEL_WIDTH * 2 < x && x <= TOPBAR_STARTX + TOPBAR_PANEL_WIDTH * 3)
             {
+                m_topBarIndex = TOPBAR_SETTING;
+            }
+            else if (TOPBAR_STARTX + TOPBAR_PANEL_WIDTH * 3 < x && x <= TOPBAR_STARTX + TOPBAR_PANEL_WIDTH * 4)
+            {
                 m_topBarIndex = TOPBAR_TITLE;
             }
         }
@@ -1000,6 +1102,7 @@ void NSMenu::Menu::CursorOn(const int x, const int y)
              m_eFocus == eFocus::SKILL ||
              m_eFocus == eFocus::STATUS ||
              m_eFocus == eFocus::SAVE ||
+             m_eFocus == eFocus::SETTING ||
              m_eFocus == eFocus::TITLE)
     {
         if (LEFT_PANEL_STARTX < x && x <= LEFT_PANEL_STARTX + LEFT_PANEL_WIDTH)
@@ -1086,6 +1189,15 @@ void NSMenu::Menu::CursorOn(const int x, const int y)
                 nBegin = 0;
                 nSize = 2;
             }
+            else if (m_eFocus == eFocus::SETTING)
+            {
+                previousIndex = m_settingSelect;
+                nBegin = m_settingBegin;
+                if (m_settingCategory.size() <= 9)
+                {
+                    nSize = m_settingCategory.size();
+                }
+            }
             else if (m_eFocus == eFocus::TITLE)
             {
                 previousIndex = m_titleCursor;
@@ -1160,6 +1272,11 @@ void NSMenu::Menu::CursorOn(const int x, const int y)
                 else if (m_eFocus == eFocus::SAVE)
                 {
                     m_saveCursor = nCursor;
+                }
+                else if (m_eFocus == eFocus::SETTING)
+                {
+                    m_settingCursor = nCursor;
+                    m_settingSelect = nSelect;
                 }
                 else if (m_eFocus == eFocus::TITLE)
                 {
@@ -1258,6 +1375,36 @@ void NSMenu::Menu::CursorOn(const int x, const int y)
             }
         }
     }
+    else if (m_eFocus == eFocus::SETTING_SUB)
+    {
+        if (MIDDLE_PANEL_STARTX - 250 < x && x <= MIDDLE_PANEL_STARTX -250 + LEFT_PANEL_WIDTH)
+        {
+            previousIndex = m_settingSubCursor;
+
+            std::wstring category = m_settingCategory.at(m_settingSelect);
+            size_t nSize = m_settingSubCategory.at(category).size();
+            if (nSize >= 10)
+            {
+                nSize = 10;
+            }
+
+            for (int i = 0; i < (int)nSize; ++i)
+            {
+                if (LEFT_PANEL_STARTY + LEFT_PANEL_HEIGHT * i < y &&
+                    y <= LEFT_PANEL_STARTY + LEFT_PANEL_HEIGHT * (i + 1))
+                {
+                    m_settingSubCursor = i;
+                    m_settingSubSelect = m_settingSubBegin + i;
+                    break;
+                }
+            }
+
+            if (previousIndex != m_settingSubCursor)
+            {
+                m_SE->PlayMove();
+            }
+        }
+    }
 }
 
 std::wstring Menu::Click(const int x, const int y)
@@ -1323,6 +1470,11 @@ std::wstring Menu::Click(const int x, const int y)
             m_saveCursor = 0;
         }
         else if (TOPBAR_STARTX + TOPBAR_PANEL_WIDTH * 2 < x && x <= TOPBAR_STARTX + TOPBAR_PANEL_WIDTH * 3)
+        {
+            m_eFocus = eFocus::SETTING;
+            m_topBarIndex = TOPBAR_SETTING;
+        }
+        else if (TOPBAR_STARTX + TOPBAR_PANEL_WIDTH * 3 < x && x <= TOPBAR_STARTX + TOPBAR_PANEL_WIDTH * 4)
         {
             m_eFocus = eFocus::TITLE;
             m_topBarIndex = TOPBAR_TITLE;
@@ -1691,6 +1843,73 @@ std::wstring Menu::Click(const int x, const int y)
                 m_eFocus = eFocus::TOP_BAR;
             }
         }
+        else if (m_eFocus == eFocus::SETTING)
+        {
+            if (LEFT_PANEL_STARTX < x && x <= LEFT_PANEL_STARTX + LEFT_PANEL_WIDTH - 250)
+            {
+                nBegin = m_settingBegin;
+                if (m_settingCategory.size() <= 9)
+                {
+                    nSize = m_settingCategory.size();
+                }
+
+                for (int i = 0; i < (int)nSize; ++i)
+                {
+                    if (LEFT_PANEL_STARTY + LEFT_PANEL_HEIGHT * i < y &&
+                        y <= LEFT_PANEL_STARTY + LEFT_PANEL_HEIGHT * (i + 1))
+                    {
+                        m_settingCursor = i;
+                        m_settingSelect = nBegin + i;
+                        m_settingSubCursor = 0;
+                        m_eFocus = eFocus::SETTING_SUB;
+                        break;
+                    }
+                }
+            }
+        }
+        else if (m_eFocus == eFocus::SETTING_SUB)
+        {
+            if (MIDDLE_PANEL_STARTX - 250 < x && x <= MIDDLE_PANEL_STARTX - 250 + LEFT_PANEL_WIDTH)
+            {
+                nBegin = m_settingBegin;
+
+                auto& category = m_settingCategory.at(m_settingSelect);
+                if (m_settingSubCategory.at(category).size() <= 9)
+                {
+                    nSize = m_settingSubCategory.at(category).size();
+                }
+
+                bool hit = false;
+                for (int i = 0; i < (int)nSize; ++i)
+                {
+                    if (LEFT_PANEL_STARTY + LEFT_PANEL_HEIGHT * i < y &&
+                        y <= LEFT_PANEL_STARTY + LEFT_PANEL_HEIGHT * (i + 1))
+                    {
+                        m_settingSubCursor = i;
+                        m_settingSubSelect = nBegin + i;
+
+                        hit = true;
+
+                        break;
+                    }
+                }
+                
+                if (!hit)
+                {
+                    m_eFocus = eFocus::SETTING;
+                    m_settingSubCursor = 0;
+                    m_settingSubSelect = 0;
+                    m_settingSubBegin = 0;
+                }
+            }
+            else
+            {
+                m_eFocus = eFocus::SETTING;
+                m_settingSubCursor = 0;
+                m_settingSubSelect = 0;
+                m_settingSubBegin = 0;
+            }
+        }
         else if (m_eFocus == eFocus::TITLE)
         {
             m_titleCursor = -1;
@@ -1744,6 +1963,7 @@ void Menu::Draw()
         m_font->DrawText_(m_TopBarName.at(7), TOPBAR_STARTX + (TOPBAR_PANEL_WIDTH * 0) + TOPBAR_PADDINGX, TOPBAR_STARTY + TOPBAR_PANEL_HEIGHT + TOPBAR_PADDINGY, true);
         m_font->DrawText_(m_TopBarName.at(8), TOPBAR_STARTX + (TOPBAR_PANEL_WIDTH * 1) + TOPBAR_PADDINGX, TOPBAR_STARTY + TOPBAR_PANEL_HEIGHT + TOPBAR_PADDINGY, true);
         m_font->DrawText_(m_TopBarName.at(9), TOPBAR_STARTX + (TOPBAR_PANEL_WIDTH * 2) + TOPBAR_PADDINGX, TOPBAR_STARTY + TOPBAR_PANEL_HEIGHT + TOPBAR_PADDINGY, true);
+        m_font->DrawText_(m_TopBarName.at(10), TOPBAR_STARTX + (TOPBAR_PANEL_WIDTH * 3) + TOPBAR_PADDINGX, TOPBAR_STARTY + TOPBAR_PANEL_HEIGHT + TOPBAR_PADDINGY, true);
     }
     else
     {
@@ -1759,6 +1979,7 @@ void Menu::Draw()
         m_font->DrawText_(m_TopBarName.at(7), TOPBAR_STARTX + (TOPBAR_PANEL_WIDTH * 0) + TOPBAR_PADDINGX, TOPBAR_STARTY + TOPBAR_PANEL_HEIGHT + TOPBAR_PADDINGY, true, transparency);
         m_font->DrawText_(m_TopBarName.at(8), TOPBAR_STARTX + (TOPBAR_PANEL_WIDTH * 1) + TOPBAR_PADDINGX, TOPBAR_STARTY + TOPBAR_PANEL_HEIGHT + TOPBAR_PADDINGY, true, transparency);
         m_font->DrawText_(m_TopBarName.at(9), TOPBAR_STARTX + (TOPBAR_PANEL_WIDTH * 2) + TOPBAR_PADDINGX, TOPBAR_STARTY + TOPBAR_PANEL_HEIGHT + TOPBAR_PADDINGY, true, transparency);
+        m_font->DrawText_(m_TopBarName.at(10), TOPBAR_STARTX + (TOPBAR_PANEL_WIDTH * 3) + TOPBAR_PADDINGX, TOPBAR_STARTY + TOPBAR_PANEL_HEIGHT + TOPBAR_PADDINGY, true, transparency);
 
         if (m_topBarIndex < 7)
         {
@@ -2029,6 +2250,32 @@ void Menu::Draw()
                 LEFT_PANEL_STARTY + LEFT_PANEL_PADDINGY + (LEFT_PANEL_HEIGHT*1));
         }
     }
+    else if (m_eFocus == eFocus::SETTING || m_eFocus == eFocus::SETTING_SUB)
+    {
+        // 大カテゴリの数だけ表示
+        for (int i = 0; i < LEFT_PANEL_ROW_MAX; ++i)
+        {
+            if ((int)m_settingCategory.size() <= m_settingBegin + i)
+            {
+                break;
+            }
+
+            int trans = 255;
+            if (m_eFocus == eFocus::SETTING_SUB)
+            {
+                trans = 32;
+                if (i == m_settingCursor)
+                {
+                    trans = 255;
+                }
+            }
+            m_font->DrawText_(m_settingCategory.at((size_t)m_settingBegin+i),
+                              LEFT_PANEL_STARTX + LEFT_PANEL_PADDINGX,
+                              LEFT_PANEL_STARTY + LEFT_PANEL_PADDINGY + (i*LEFT_PANEL_HEIGHT),
+                              false,
+                              trans);
+        }
+    }
     else if (m_eFocus == eFocus::TITLE)
     {
         if (!m_bEnglish)
@@ -2197,6 +2444,32 @@ void Menu::Draw()
         }
     }
 
+    if (m_eFocus == eFocus::WEAPON || m_eFocus == eFocus::WEAPON_SUB)
+    {
+        if (!m_weaponInfoList.empty())
+        {
+            int trans = 255;
+            if (m_eFocus == eFocus::WEAPON_SUB)
+            {
+                trans = 64;
+            }
+
+            m_weaponInfoList.at(m_weaponSelect).GetSprite()->DrawImage(550, 300, trans);
+
+            std::wstring detail = m_weaponInfoList.at(m_weaponSelect).GetDetail();
+            std::vector<std::wstring> details = split(detail, '\n');
+
+            for (std::size_t i = 0; i < details.size(); ++i)
+            {
+                m_font->DrawText_(
+                    details.at(i),
+                    1100,
+                    250 + (int)i*40
+                    );
+            }
+        }
+    }
+
     // Show weapon sub
     if (m_eFocus == eFocus::WEAPON_SUB)
     {
@@ -2241,32 +2514,6 @@ void Menu::Draw()
         }
     }
 
-    if (m_eFocus == eFocus::WEAPON || m_eFocus == eFocus::WEAPON_SUB)
-    {
-        if (!m_weaponInfoList.empty())
-        {
-            int trans = 255;
-            if (m_eFocus == eFocus::WEAPON_SUB)
-            {
-                trans = 64;
-            }
-
-            m_weaponInfoList.at(m_weaponSelect).GetSprite()->DrawImage(550, 300, trans);
-
-            std::wstring detail = m_weaponInfoList.at(m_weaponSelect).GetDetail();
-            std::vector<std::wstring> details = split(detail, '\n');
-
-            for (std::size_t i = 0; i < details.size(); ++i)
-            {
-                m_font->DrawText_(
-                    details.at(i),
-                    1100,
-                    250 + (int)i*40
-                    );
-            }
-        }
-    }
-
     if (m_eFocus == eFocus::GUIDE_SUB)
     {
         std::wstring category = m_guideCategory.at(m_guideSelect);
@@ -2278,6 +2525,56 @@ void Menu::Draw()
                 m_guideInfoList.at(i).GetSubCategory() == subCategory)
             {
                 detail = m_guideInfoList.at(i).GetDetail();
+                break;
+            }
+        }
+        std::vector<std::wstring> details = split(detail, '\n');
+
+        for (std::size_t i = 0; i < details.size(); ++i)
+        {
+            m_font->DrawText_(details.at(i),
+                              700,
+                              250 + (int)i*40);
+        }
+    }
+
+    if (m_eFocus == eFocus::SETTING || m_eFocus == eFocus::SETTING_SUB)
+    {
+        std::wstring category = m_settingCategory.at(m_settingSelect);
+        std::vector<std::wstring> vs = m_settingSubCategory.at(category);
+
+        for (int i = 0; i < LEFT_PANEL_ROW_MAX; ++i)
+        {
+            if ((int)vs.size() <= m_settingSubBegin + i)
+            {
+                break;
+            }
+
+            int trans = 255;
+            if (m_eFocus == eFocus::SETTING)
+            {
+                trans = 32;
+            }
+
+            m_font->DrawText_(vs.at((size_t)m_settingSubBegin+i),
+                              MIDDLE_PANEL_STARTX - 250,
+                              LEFT_PANEL_STARTY + LEFT_PANEL_PADDINGY + (i*LEFT_PANEL_HEIGHT),
+                              false,
+                              trans);
+        }
+    }
+
+    if (m_eFocus == eFocus::SETTING_SUB)
+    {
+        std::wstring category = m_settingCategory.at(m_settingSelect);
+        std::wstring subCategory = m_settingSubCategory.at(category).at(m_settingSubSelect);
+        std::wstring detail;
+        for (std::size_t i = 0; i < m_settingInfoList.size(); ++i)
+        {
+            if (m_settingInfoList.at(i).GetCategory() == category &&
+                m_settingInfoList.at(i).GetSubCategory() == subCategory)
+            {
+                detail = m_settingInfoList.at(i).GetDetail();
                 break;
             }
         }
@@ -2447,6 +2744,14 @@ void Menu::Draw()
     else if (m_eFocus == eFocus::SAVE)
     {
         m_sprCursor->DrawImage(LEFT_PANEL_CURSORX, LEFT_PANEL_CURSORY + (m_saveCursor * 60));
+    }
+    else if (m_eFocus == eFocus::SETTING)
+    {
+        m_sprCursor->DrawImage(LEFT_PANEL_CURSORX, LEFT_PANEL_CURSORY + (m_settingCursor * 60));
+    }
+    else if (m_eFocus == eFocus::SETTING_SUB)
+    {
+        m_sprCursor->DrawImage(MIDDLE_PANEL_CURSORX - 250, MIDDLE_PANEL_CURSORY + (m_settingSubCursor * 60));
     }
     else if (m_eFocus == eFocus::TITLE)
     {
