@@ -924,6 +924,13 @@ std::wstring Menu::Into()
         m_eFocus = eFocus::SETTING_SUB;
         m_settingSubCursor = 0;
     }
+    else if (m_eFocus == eFocus::SETTING_SUB)
+    {
+        result = m_TopBarNameKey.at(m_topBarIndex);
+        result += _T(":") + m_settingCategory.at(m_settingSelect);
+        auto& id = m_settingCategory.at(m_settingSelect);
+        result += _T(":") + m_settingSubCategory.at(id).at(m_settingSubSelect);
+    }
     else if (m_eFocus == eFocus::TITLE)
     {
         if (m_titleCursor == 0)
@@ -1894,7 +1901,14 @@ std::wstring Menu::Click(const int x, const int y)
                     }
                 }
                 
-                if (!hit)
+                if (hit)
+                {
+                    result = m_TopBarNameKey.at(m_topBarIndex);
+                    result += _T(":") + m_settingCategory.at(m_settingSelect);
+                    auto& id = m_settingCategory.at(m_settingSelect);
+                    result += _T(":") + m_settingSubCategory.at(id).at(m_settingSubSelect);
+                }
+                else
                 {
                     m_eFocus = eFocus::SETTING;
                     m_settingSubCursor = 0;

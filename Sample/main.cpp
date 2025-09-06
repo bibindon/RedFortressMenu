@@ -1220,11 +1220,47 @@ HRESULT InitD3D(HWND hWnd)
         }
         menu.SetMap(infoList);
     }
+    {
+        std::vector<SettingInfo> infoList;
+        {
+            SettingInfo info;
+            info.SetId(L"Resolution");
+            info.SetCategory(_T("解像度"));
+            info.SetSubCategory(_T("1600x900"));
+            info.SetDetail(L"");
+            infoList.push_back(info);
+        }
+        {
+            SettingInfo info;
+            info.SetId(L"Resolution");
+            info.SetCategory(_T("解像度"));
+            info.SetSubCategory(_T("1920x1080"));
+            info.SetDetail(L"");
+            infoList.push_back(info);
+        }
+        {
+            SettingInfo info;
+            info.SetId(L"Resolution");
+            info.SetCategory(_T("解像度"));
+            info.SetSubCategory(_T("2560x1440"));
+            info.SetDetail(L"");
+            infoList.push_back(info);
+        }
+        {
+            SettingInfo info;
+            info.SetId(L"Resolution");
+            info.SetCategory(_T("解像度"));
+            info.SetSubCategory(_T("3840x2160"));
+            info.SetDetail(L"");
+            infoList.push_back(info);
+        }
+        menu.SetSetting(infoList);
+    }
 
     return S_OK;
 }
 
-VOID Cleanup()
+static VOID Cleanup()
 {
     SAFE_RELEASE(pEffect);
 
@@ -1400,7 +1436,7 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_LBUTTONDOWN:
     {
         POINTS mouse_p = MAKEPOINTS(lParam);
-        menu.Click(mouse_p.x, mouse_p.y);
+        auto result = menu.Click(mouse_p.x, mouse_p.y);
         break;
     }
     case WM_RBUTTONDOWN:
