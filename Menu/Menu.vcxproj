@@ -32,6 +32,7 @@
     <ClCompile Include="ItemInfo.cpp" />
     <ClCompile Include="MapInfo.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="SettingInfo.cpp" />
     <ClCompile Include="SkillInfo.cpp" />
     <ClCompile Include="GuideInfo.cpp" />
     <ClCompile Include="StatusInfo.cpp" />

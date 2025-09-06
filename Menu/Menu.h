@@ -280,6 +280,30 @@ private:
     std::wstring m_detail;
 };
 
+class SettingInfo
+{
+public:
+
+    std::wstring GetId();
+    void SetId(const std::wstring& arg);
+
+    std::wstring GetCategory();
+    void SetCategory(const std::wstring& arg);
+
+    std::wstring GetSubCategory();
+    void SetSubCategory(const std::wstring& arg);
+
+    std::wstring GetDetail();
+    void SetDetail(const std::wstring& arg);
+
+private:
+
+    std::wstring m_id;
+    std::wstring m_category;
+    std::wstring m_subCategory;
+    std::wstring m_detail;
+};
+
 class Menu
 {
 public:
@@ -302,6 +326,7 @@ public:
     void SetStatus(const std::vector<StatusInfo>& items);
     void SetGuide(const std::vector<GuideInfo>& items);
     void SetWeapon(const std::vector<WeaponInfo>& items);
+    void SetSetting(const std::vector<SettingInfo>& items);
     void Up();
     void Down();
     void Right();
@@ -351,8 +376,8 @@ private:
         ENEMY,
         SKILL,
         STATUS,
-        QUIT,
-        OPENING,
+        SAVE,
+        TITLE,
     };
 
     const int TOPBAR_ITEM = 0;
@@ -363,8 +388,8 @@ private:
     const int TOPBAR_ENEMY = 5;
     const int TOPBAR_SKILL = 6;
     const int TOPBAR_STATUS = 7;
-    const int TOPBAR_QUIT = 8;
-    const int TOPBAR_OPENING = 9;
+    const int TOPBAR_SAVE = 8;
+    const int TOPBAR_TITLE = 9;
     const int TOPBAR_MAX = 10;
 
     const int TOPBAR_PADDINGX = 50;
@@ -460,8 +485,8 @@ private:
     // スクロール可能なので一番上に表示されるアイテムはスクロールすると変わる。
     int m_statusBegin { 0 };
 
-    int m_quitCursor = 0;
-    int m_openingCursor = 0;
+    int m_saveCursor = 0;
+    int m_titleCursor = 0;
 
     std::vector<std::wstring> m_TopBarName;
 
@@ -476,9 +501,13 @@ private:
     std::vector<StatusInfo> m_statusInfoList;
     std::vector<GuideInfo> m_guideInfoList;
     std::vector<WeaponInfo> m_weaponInfoList;
+    std::vector<SettingInfo> m_settingInfoList;
 
     std::vector<std::wstring> m_guideCategory;
     std::map<std::wstring, std::vector<std::wstring>> m_guideSubCategory;
+
+    std::vector<std::wstring> m_settingCategory;
+    std::map<std::wstring, std::vector<std::wstring>> m_settingSubCategory;
 
     float m_weightAll = 0.f;
     int m_volumeAll = 0;
